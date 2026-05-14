@@ -1,18 +1,18 @@
 # Cube Destroyer – 2D Web Oyunu
 
-## Oyun Mekaniklerinin Kısa Açıklaması
+## Oyun Mekaniklerinin Açıklaması
 
-Bu oyunda ekranda dönen renkli küpleri fareyle tıklayarak yok etmeye çalışıyorsunuz. Her küpün bir can puanı var (1, 2 veya 3). Küpün rengi kaç tıklamayla yok olacağını gösteriyor:
+Bu oyunda ekranda dönen renkli küpleri fareyle tıklayarak yok etmeye çalışıyorsunuz. Her küpün bir can puanı var (1, 2 veya 3). Bu değer küpün rengi kaç tıklamayla yok olacağını gösteriyor:
 
 - 🟥 **Kırmızı küp** → 3 tıklamayla yok olur
 - 🟧 **Turuncu küp** → 2 tıklamayla yok olur
 - 🟩 **Yeşil küp** → 1 tıklamayla yok olur
 
-Bir küp yok edilince yanındaki küpler biraz büyüyor, bu da zamanla ekranı daha kalabalık hale getiriyor. Oyunda iki farklı dönüş var: küpler kendi etraflarında dönerken tüm grid de ayrıca dönüyor. Bu yüzden tıklamak giderek zorlaşıyor.
+Bir küp yok edilince yanındaki küpler biraz büyüyor, bu da zamanla ekranı daha kalabalık hale getiriyor. Oyunda iki farklı dönüş var: küpler kendi etraflarında dönerken tüm grid de ayrıca dönüyor. Bu yüzden tıklamak giderek zorlaşıyor.(Bu özellik kendi ekledeğim orjinal oyundakinden farklı olan bir mekanik)
 
 Her oyuncu **3 can** hakkına sahip. Boş bir yere tıklamak can kaybettiriyor. 3 can da bitince oyun bitiyor.
 
-## Zorluğun ve Aşamaların Açıklaması
+## Zorluğun ve Oyun Seviyelerinin Açıklaması
 
 Oyun 6 aşamadan oluşuyor ve her aşamada zorluk artıyor:
 
@@ -33,7 +33,7 @@ Yeterince küp yok ettikçe (6, 12, 18, 26, 36...) bir sonraki aşamaya geçiliy
 ## Kullanılan Teknolojiler
 
 - HTML5
-- JavaScript (vanilla, kütüphane kullanılmadı)
+- JavaScript 
 - Canvas
 
 ---
@@ -51,15 +51,7 @@ Yeterince küp yok ettikçe (6, 12, 18, 26, 36...) bir sonraki aşamaya geçiliy
 |                           | Link                                               |
 | ------------------------- | -------------------------------------------------- |
 | 🎮 **Orijinal Oyun**      | https://lambdagamesofficial.itch.io/cube-destroyer |
-| 🕹️ **Oyunun Yayın Linki** |                                                    |
+| 🕹️ **Oyunun Yayın Linki** | https://ozgurrozcan.github.io/cube_destroyer/      |
 
 ---
 
-## Kullanılan Ses ve Görsel Kaynakları
-
-| Dosya                  | Kaynak |
-| ---------------------- | ------ |
-| `background_music.mp3` |        |
-| `pop.mp3`              |        |
-| `health_sound.mp3`     |        |
-| `game_over.mp3`        |        |

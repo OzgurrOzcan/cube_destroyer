@@ -1,4 +1,4 @@
-// Ana oyun dosyasi. Oyun dongusu, tiklama kontrolu, asama sistemi burada yapılır,
+// Ana oyun dosyasi. Oyun dongusu, tıklama kontrolu, seviye sistemi genel oyun yapısı burada yapılır,
 // grid yönetimi ve ekran çizimi burada yapiliyor.
 
 const canvas = document.getElementById("gameCanvas");
@@ -50,15 +50,16 @@ function arkaplanMuzikDurdur() {
 function sesCal(isim) {
   if (isim === "click" || isim === "explode") {
     if (!tiklamaSesi) return;
+
     tiklamaSesi.currentTime = 0;
     tiklamaSesi.play().catch(function () {});
   } else if (isim === "can") {
-    // can gittiginde health_sound calinir
+    // can gittiginde çalacak can gitti sesi
     if (!canSesi) return;
+
     canSesi.currentTime = 0;
     canSesi.play().catch(function () {});
   } else if (isim === "gameover") {
-    // game_over dosyasi assets/ altinda (sounds klasoru disinda)
     try {
       var s = new Audio("assets/sounds/game_over.mp3");
       s.play().catch(function () {});
@@ -67,16 +68,17 @@ function sesCal(isim) {
 }
 
 // oyunun genel değişkenleri
-var oyunDurumu = "menu"; // "menu" | "oynuyor" | "gameover"
+var oyunDurumu = "menu";
 var skor = 0;
 var can = 3;
 var mevcutAsama = 1;
-var basariliTiklama = 0; // toplam basarili kup yok etme sayisi
+var basariliTiklama = 0; // toplam başarılı  küp yok etme sayisi
 
 // grid dönüşü
 var gridAci = 0;
 var gridHizi = 0.004; // baslangic grid dönüş hızı
 var kupHizi = 0.01; // baslangic küp dönüş hızı
+//başlangıçta bu hızlar ile başlıyor oyun daha sonrasında oyunucu scoru yükselttikçe diğer seviyelere geçildikçe artıyor.
 
 var gridMerkezX = canvas.width / 2;
 var gridMerkezY = canvas.height / 2 + 20;
@@ -84,8 +86,9 @@ var gridMerkezY = canvas.height / 2 + 20;
 var kupler = [];
 var parcaciklar = [];
 
-var yanlisTiklamaTimer = 0; // kirmizi ekran flash suresi
-var asamaMesajiZamani = 0; // asama gecis yazisi icin zaman
+var yanlisTiklamaTimer = 0; // Oyuncunun yanlış yere tıkladığında ekranın kırmızıya dönme süresi
+
+var asamaMesajiZamani = 0; // aşama geçiş yazısı için zaman
 
 // Seviye Ayarları
 // Her seviye icin küplerin dönüş hızı, grid dönüş hızı , kup sayısı ve boyutu ayarlamak için
@@ -149,7 +152,7 @@ function parcacikOlustur(x, y, renk) {
   }
 }
 
-// Yok edilen kupun yakin komsuları biraz buyur
+// Yok edilen küpün yakin komşuları biraz büyür
 function komsulariBuyut(oleniIndex) {
   var olen = kupler[oleniIndex];
   for (var i = 0; i < kupler.length; i++) {
@@ -171,7 +174,7 @@ function canKaybet() {
     can = 0;
     oyunDurumu = "gameover";
     arkaplanMuzikDurdur();
-    sesCal("gameover"); // oyun bitti muzigi
+    sesCal("gameover"); // oyun bitti müziği
   } else {
     sesCal("can"); // sadece bir can gitti
   }
@@ -212,6 +215,7 @@ canvas.addEventListener("click", function (e) {
 
   // 1. Adim: tiklama koordinatini grid yerel koordinatina cevir
   // Grid gridAci kadar donmus, bunu tersine ceviriyor
+
   var dx = tikX - gridMerkezX;
   var dy = tikY - gridMerkezY;
   var gx = dx * Math.cos(-gridAci) - dy * Math.sin(-gridAci);
@@ -221,9 +225,10 @@ canvas.addEventListener("click", function (e) {
 
   for (var i = 0; i < kupler.length; i++) {
     var k = kupler[i];
+
     if (!k.active) continue;
 
-    // 2. Adim: kupun kendi donusunu da hesaba katarak kup koordinatina cevir
+    // 2. Adim: küpün  kendi dönüşünü da hesaba katarak küp koordinatina cevir
     var cx = gx - k.localX;
     var cy = gy - k.localY;
     var rx = cx * Math.cos(-k.aci) - cy * Math.sin(-k.aci);
@@ -253,9 +258,9 @@ canvas.addEventListener("click", function (e) {
     }
   }
 
-  // hicbir aktif kupe carpmadi = yanlis tiklama, canı 1 azalt
+  // hiçbir aktif küpe tıklanmadı = yanlış tıklama, canı 1 azalt
   if (!birKupeCarptim) {
-    canKaybet(); // ses canKaybet() icinde caliyor
+    canKaybet(); // ses canKaybet() fonksiyonu içinde çalıyor
   }
 });
 
@@ -285,7 +290,7 @@ function oyunuSifirla() {
 function guncelle() {
   if (oyunDurumu !== "oynuyor") return;
 
-  // gridi dondur
+  // gridi döndür
   gridAci += gridHizi;
 
   // her bir küpü günceller
@@ -304,7 +309,7 @@ function guncelle() {
   // yanlis tiklama efekti sayaci
   if (yanlisTiklamaTimer > 0) yanlisTiklamaTimer--;
 
-  // tum kupler yok edildiyse yeni tur olustur
+  // tüm küpler yok edildiyse yeni tur olusştur
   var aktifVar = false;
   for (var i = 0; i < kupler.length; i++) {
     if (kupler[i].active) {
@@ -317,7 +322,7 @@ function guncelle() {
   }
 }
 
-//CIZIM FONKSIYONLARI
+//Çizim FONKSIYONLARı
 
 function arkaPlaniCiz() {
   ctx.fillStyle = "#1a1a2e";
@@ -406,12 +411,10 @@ function menuCiz() {
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
 
-  // baslik
   ctx.fillStyle = "#f1c40f";
   ctx.font = "bold 54px Arial";
   ctx.fillText("CUBE DESTROYER", canvas.width / 2, 150);
 
-  // alt baslik
   ctx.fillStyle = "#aaaaaa";
   ctx.font = "19px Arial";
   ctx.fillText("Donen kupleri yok et!", canvas.width / 2, 215);
